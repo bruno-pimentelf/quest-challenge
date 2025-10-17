@@ -1,103 +1,107 @@
-import Image from "next/image";
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Presentation, Users } from 'lucide-react';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-6">
+      <div className="w-full max-w-4xl">
+        <div className="text-center mb-12 space-y-4">
+          <h1 className="text-7xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+            Teachy
+          </h1>
+          <p className="text-2xl text-muted-foreground">
+            Apresentações Interativas em Tempo Real
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <Card
+            className="border-2 hover:border-primary/50 hover:shadow-2xl transition-all cursor-pointer group"
+            onClick={() => router.push('/dashboard')}
+          >
+            <CardHeader className="text-center pb-8 pt-12">
+              <div className="mx-auto mb-6 relative">
+                <div className="h-28 w-28 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mx-auto shadow-2xl group-hover:scale-110 transition-transform">
+                  <Presentation className="h-14 w-14 text-white" />
+                </div>
+                <div className="absolute inset-0 h-28 w-28 mx-auto rounded-full bg-primary/20 blur-xl group-hover:blur-2xl transition-all" />
+              </div>
+              <CardTitle className="text-3xl mb-3 group-hover:text-primary transition-colors">
+                Sou Professor
+              </CardTitle>
+              <CardDescription className="text-lg">
+                Crie e apresente questionários interativos
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pb-12">
+              <Button
+                size="lg"
+                className="w-full shadow-lg hover:shadow-xl transition-all text-lg h-14"
+              >
+                <Presentation className="mr-2 h-6 w-6" />
+                Acessar Dashboard
+              </Button>
+              <div className="mt-6 space-y-2 text-sm text-muted-foreground text-center">
+                <p>• Criar apresentações</p>
+                <p>• Gerenciar perguntas</p>
+                <p>• Ver resultados em tempo real</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card
+            className="border-2 hover:border-primary/50 hover:shadow-2xl transition-all cursor-pointer group"
+            onClick={() => router.push('/join')}
+          >
+            <CardHeader className="text-center pb-8 pt-12">
+              <div className="mx-auto mb-6 relative">
+                <div className="h-28 w-28 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mx-auto shadow-2xl group-hover:scale-110 transition-transform">
+                  <Users className="h-14 w-14 text-white" />
+                </div>
+                <div className="absolute inset-0 h-28 w-28 mx-auto rounded-full bg-purple-500/20 blur-xl group-hover:blur-2xl transition-all" />
+              </div>
+              <CardTitle className="text-3xl mb-3 group-hover:text-primary transition-colors">
+                Sou Aluno
+              </CardTitle>
+              <CardDescription className="text-lg">
+                Entre em uma sala com o código fornecido
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pb-12">
+              <Button
+                size="lg"
+                className="w-full shadow-lg hover:shadow-xl transition-all text-lg h-14 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+              >
+                <Users className="mr-2 h-6 w-6" />
+                Entrar em uma Sala
+              </Button>
+              <div className="mt-6 space-y-2 text-sm text-muted-foreground text-center">
+                <p>• Digite o código da sala</p>
+                <p>• Responda as perguntas</p>
+                <p>• Veja os resultados ao vivo</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="mt-12 text-center">
+          <p className="text-sm text-muted-foreground">
+            Plataforma de apresentações interativas para educação
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
