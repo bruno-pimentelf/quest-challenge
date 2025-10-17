@@ -55,9 +55,9 @@ export function MultipleChoiceResults({
   return (
     <div className="h-full flex flex-col gap-2">
       {/* Title + Stats in one line */}
-      <div className="flex items-center justify-between pb-2 border-b flex-shrink-0">
-        <h2 className="text-lg font-bold truncate">{content.title}</h2>
-        <span className="text-xs text-muted-foreground whitespace-nowrap">
+      <div className="flex items-center justify-between pb-3 border-b flex-shrink-0">
+        <h2 className="text-2xl font-bold truncate">{content.title}</h2>
+        <span className="text-sm text-muted-foreground whitespace-nowrap">
           {responses.length} {responses.length === 1 ? 'resposta' : 'respostas'}
         </span>
       </div>

@@ -45,9 +45,9 @@ export function WordCloudResults({
   return (
     <div className="h-full flex flex-col gap-2">
       {/* Title + Stats in one line */}
-      <div className="flex items-center justify-between pb-2 border-b flex-shrink-0">
-        <h2 className="text-lg font-bold truncate">{content.title}</h2>
-        <span className="text-xs text-muted-foreground whitespace-nowrap">
+      <div className="flex items-center justify-between pb-3 border-b flex-shrink-0">
+        <h2 className="text-2xl font-bold truncate">{content.title}</h2>
+        <span className="text-sm text-muted-foreground whitespace-nowrap">
           {responses.length} respostas • {totalWords} palavras
         </span>
       </div>
@@ -69,16 +69,21 @@ export function WordCloudResults({
               {wordFrequencies.map(({ word, count }, index) => {
                 const fontSize = 14 + (count / maxCount) * 40;
                 const weight = 400 + Math.floor((count / maxCount) * 500);
+                const isVertical = index % 3 === 0;
+                const rotation = isVertical ? -90 : 0;
+                const randomTilt = !isVertical && index % 5 === 0 ? (Math.random() - 0.5) * 15 : 0;
 
                 return (
                   <span
                     key={index}
-                    className="cursor-pointer transition-all duration-200 hover:scale-110 select-none"
+                    className="cursor-pointer transition-all duration-200 hover:scale-110 select-none inline-block"
                     style={{
                       fontSize: `${fontSize}px`,
                       fontWeight: weight,
                       color: CLOUD_COLORS[index % CLOUD_COLORS.length],
                       animation: `fadeIn 0.3s ease-in-out ${index * 0.03}s both`,
+                      transform: `rotate(${rotation + randomTilt}deg)`,
+                      writingMode: isVertical ? 'vertical-rl' as const : 'horizontal-tb' as const,
                     }}
                     title={`${word}: ${count}× (${((count / totalWords) * 100).toFixed(1)}%)`}
                   >

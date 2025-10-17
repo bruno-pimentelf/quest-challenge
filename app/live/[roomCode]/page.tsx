@@ -8,6 +8,7 @@ import {
   updateLiveSession,
   getResponsesByRoomCode,
   endLiveSession,
+  submitResponse,
 } from '@/services/api';
 import type {
   LiveSession,
@@ -115,6 +116,56 @@ export default function LivePresentationPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleSimulateResponse = async () => {
+    if (!currentQuestion) return;
+
+    const studentId = `test-student-${Date.now()}`;
+
+    if (currentQuestion.type === 'MULTIPLE_CHOICE' && currentQuestion.content.type === 'MULTIPLE_CHOICE') {
+      const options = currentQuestion.content.data.options;
+      const randomOption = Math.floor(Math.random() * options.length);
+
+      const response: MultipleChoiceResponse = {
+        questionId: currentQuestion.id,
+        studentId,
+        selectedOption: randomOption,
+        timestamp: new Date(),
+      };
+
+      await submitResponse(roomCode, response);
+    } else if (currentQuestion.type === 'WORD_CLOUD' && currentQuestion.content.type === 'WORD_CLOUD') {
+      const randomWords = ['incrível', 'legal', 'ótimo', 'excelente', 'top', 'show', 'massa', 'bacana', 'perfeito', 'demais'];
+      const word = randomWords[Math.floor(Math.random() * randomWords.length)];
+
+      const response: WordCloudResponse = {
+        questionId: currentQuestion.id,
+        studentId,
+        words: [word],
+        timestamp: new Date(),
+      };
+
+      await submitResponse(roomCode, response);
+    } else if (currentQuestion.type === 'RANKING' && currentQuestion.content.type === 'RANKING') {
+      const items = [...currentQuestion.content.data.items];
+      // Shuffle array
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+
+      const response: RankingResponse = {
+        questionId: currentQuestion.id,
+        studentId,
+        ranking: items,
+        timestamp: new Date(),
+      };
+
+      await submitResponse(roomCode, response);
+    }
+
+    await loadResponses();
+  };
+
   const currentQuestion = useMemo(() => {
     if (!session || !presentation) return null;
     return presentation.questions[session.currentQuestionIndex];
@@ -163,12 +214,22 @@ export default function LivePresentationPage() {
           </div>
 
           <div className="flex items-center gap-1.5 flex-shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSimulateResponse}
+              className="h-7 text-xs px-2 bg-blue-50 hover:bg-blue-100 border-blue-200"
+              title="Simular resposta de aluno para teste"
+            >
+              🎭 Simular Aluno
+            </Button>
+
             <button
-              className="px-2 py-1 font-mono font-bold text-xs border rounded hover:bg-primary/5 transition-all"
+              className="px-3 py-1.5 font-mono font-bold text-base border-2 rounded-md hover:bg-primary/5 transition-all shadow-sm"
               onClick={handleCopyRoomCode}
             >
               {roomCode}
-              {copied ? <Check className="inline h-3 w-3 ml-1 text-green-600" /> : <Copy className="inline h-3 w-3 ml-1" />}
+              {copied ? <Check className="inline h-4 w-4 ml-1.5 text-green-600" /> : <Copy className="inline h-4 w-4 ml-1.5" />}
             </button>
 
             <Button variant="destructive" size="sm" onClick={handleEndSession} className="h-7 text-xs px-2">
